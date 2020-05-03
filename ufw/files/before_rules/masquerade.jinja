@@ -1,0 +1,8 @@
+{%- if (masquerade|length > 0) %}
+  {%- for m_key, m_val in masquerade.items()|sort %}
+# {{ m_key }}
+-A POSTROUTING -s {{ m_val['source'] }} -o {{ m_val['out'] }} -j MASQUERADE
+  {%- endfor %}
+{%- else %}
+# empty
+{%- endif %}

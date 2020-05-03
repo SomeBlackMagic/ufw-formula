@@ -8,7 +8,7 @@
 {%- set default_forward_policy = ufw_settings.get('default_forward_policy', 'DROP') %}
 {%- set default_application_policy = ufw_settings.get('default_application_policy', 'SKIP') %}
 {%- set manage_builtins = "yes" if ufw_settings.get('manage_builtins', False) else "no" %}
-{%- set ipt_sysctl = ufw_settings.get('ipt_sysctl', '/etc/ufw/sysctl.conf') %}
+{%- set ipt_sysctl = ufw_settings.get('ipt_sysctl', '/etc/sysctl.d/20-network.conf') %}
 {%- set ipt_modules = ufw_settings.get('ipt_modules', ['nf_conntrack_ftp', 'nf_nat_ftp', 'nf_conntrack_netbios_ns'])|join(" ") %}
 
 # Set to yes to apply rules to support IPv6 (no means only IPv6 on loopback

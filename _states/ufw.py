@@ -1,6 +1,16 @@
 from salt.exceptions import CommandExecutionError, CommandNotFoundError
-import re
+from collections import namedtuple
+
+
 import socket
+import re
+import json
+import yaml
+import requests
+import logging
+import salt.exceptions
+
+logger = logging.getLogger(__name__)
 
 
 def _unchanged(name, msg):
@@ -216,3 +226,4 @@ def allowed(name, app=None, interface=None, protocol=None,
     allow() is aliased to allowed() to maintain backwards compatibility.
     """
     return allow(name, app, interface, protocol, from_addr, from_port, to_addr, to_port, comment)
+

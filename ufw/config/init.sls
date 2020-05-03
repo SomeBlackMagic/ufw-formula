@@ -3,6 +3,7 @@
 
 include:
   - .file
+  - .before_rules
   - .services
   - .applications
   - .interfaces

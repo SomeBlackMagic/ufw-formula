@@ -1,0 +1,18 @@
+{%- if (redirect|length > 0) %}
+  {%- for r_key, r_val in redirect.items()|sort %}
+# {{ r_key }}
+    {%- if (r_val['src'] is defined) and (r_val['src'] is not none) %}
+      {%- set src_block = '--src ' ~ r_val['src'] %}
+    {%- else %}
+      {%- set src_block = ' ' %}
+    {%- endif %}
+    {%- if (r_val['dst'] is defined) and (r_val['dst'] is not none) %}
+      {%- set dst_block = '--dst ' ~ r_val['dst'] %}
+    {%- else %}
+      {%- set dst_block = ' ' %}
+    {%- endif %}
+-A PREROUTING -i {{ r_val['in'] }} {{ src_block }} {{ dst_block }} -p {{ r_val['proto'] }} --dport {{ r_val['dport'] }} -j REDIRECT --to-ports {{ r_val['to_ports'] }}
+  {%- endfor %}
+{%- else %}
+# empty
+{%- endif %}

@@ -1,0 +1,13 @@
+{%- if (snat|length > 0) %}
+{%- for s_key, s_val in snat.items()|sort %}
+# {{ s_key }}
+  {%- if (s_val['from'] is defined) and (s_val['from'] is not none) %}
+    {%- set src_block = '-s ' ~ s_val['from'] %}
+  {%- else %}
+    {%- set src_block = ' ' %}
+  {%- endif %}
+-A POSTROUTING -o {{ s_val['out'] }} {{ src_block }} -p {{ s_val['proto'] }} --dport {{ s_val['dport'] }} -j SNAT --to {{ s_val['to'] }}
+{%- endfor %}
+{%- else %}
+# empty
+{%- endif %}
