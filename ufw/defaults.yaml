@@ -7,7 +7,7 @@ ufw:
   service:
     name: ufw
   default_file: /etc/default/ufw
-  sysctl_file: /etc/sysctl.d/20-network.conf
+  sysctl_file: /etc/ufw/sysctl.conf
   enabled: false
   settings: {}
   sysctl: {}

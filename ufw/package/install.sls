@@ -14,3 +14,14 @@ ufw-package-{{ pkg }}-install-pkg-installed:
   pkg.installed:
     - name: {{ pkg }}
 {%- endfor %}
+
+ufw-package-python_pip:
+  pkg.installed:
+    - name: python-pip
+    - reload_modules: true
+
+ufw-package-pyufw:
+  pip.installed:
+    - name: pyufw
+    - require:
+        - pkg: ufw-package-python_pip

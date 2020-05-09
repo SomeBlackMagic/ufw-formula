@@ -1,7 +1,6 @@
 from salt.exceptions import CommandExecutionError, CommandNotFoundError
 from collections import namedtuple
 
-
 import socket
 import re
 import json
@@ -38,6 +37,7 @@ def _resolve(host):
 
 
 def _as_rule(method, app, interface, protocol, from_addr, from_port, to_addr, to_port, comment):
+    # type: (str, str, str, str, str, int, str, int, str) -> str
     cmd = [method]
     if app is not None:
       cmd.append("from")
@@ -56,7 +56,7 @@ def _as_rule(method, app, interface, protocol, from_addr, from_port, to_addr, to
       cmd.append(app)
     elif interface is not None:
         cmd.append("in")
-        cmd.append("on")
+        cmd.append("on")default backend
         cmd.append(interface)
     else:
         if protocol is not None:
@@ -90,8 +90,18 @@ def _as_rule(method, app, interface, protocol, from_addr, from_port, to_addr, to
     return real_cmd
 
 
-def _add_rule(method, name, app=None, interface=None, protocol=None,
-              from_addr=None, from_port=None, to_addr=None, to_port=None, comment=None):
+def _add_rule(
+  method,
+  name,
+  app=None,
+  interface=None,
+  protocol=None,
+  from_addr=None,
+  from_port=None,
+  to_addr=None,
+  to_port=None,
+  comment=None
+):
 
     if app and app.strip('"\' ') == '*':
         app = None
@@ -227,3 +237,17 @@ def allowed(name, app=None, interface=None, protocol=None,
     """
     return allow(name, app, interface, protocol, from_addr, from_port, to_addr, to_port, comment)
 
+def manage_records(name, records):
+    if __opts__['test']:
+        cmd = "ufw --dry-run "
+    else:
+        cmd = "ufw "
+
+    return _unchanged(name, records)
+#
+# __opts__ = {"test": False}
+# __salt__ = {}
+#
+# if __name__ == "__main__":
+#   res = manage_records('foo', {u'salt-from-minion-to-master': {u'interface': u'vmbr0', u'enabled': False, u'from': [u'10.0.0.2', u'10.0.0.3'], u'allow': True}})
+#   print res
